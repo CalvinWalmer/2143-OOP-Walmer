@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
 
+#define ISFULL if(IsFull()){Resize();}
+
 using namespace std;
 
 struct Vector
@@ -32,6 +34,7 @@ struct Vector
         SearchPop(int val)
     */
 
+   //Constructors
     Vector()
     {
         array = new int[10];
@@ -55,13 +58,55 @@ struct Vector
 
     }
 
-
-    void Push(int val)
+    //Push Methods
+    void PushFront(int val)
     {
-        if (isFull()) 
-            Resize();
+        ISFULL;
+
+        for(int i = vindex; i > 0; i--)
+        {
+            array[i] = array[i - 1];
+        }
+
+        array[0] = val;
+
+        cout << "PF " << val << endl;
+
+        vindex++;
+    }
+
+    void PushFront(Vector v)
+    {
+        
+    }
+
+    void PushRear(int val)
+    {
+        ISFULL;
 
         array[vindex] = val;
+
+        cout << "PR " << val << endl;
+
+        vindex++;
+    }
+
+    void PushRear(Vector v)
+    {
+
+    }
+
+    void PushAt(int location, int val)
+    {
+        ISFULL;
+
+        for(int i = vindex; i > location; i--)
+        {
+            array[i] = array[i - 1];
+        }
+        
+        array[location] = val;
+
         vindex++;
     }
 
@@ -70,34 +115,39 @@ struct Vector
         return(0);
     }
 
-    void PushAt(int index, int val)
+    void Print(int num = 0)
     {
-    }
+        int to;
 
-    void Print()
-    {
-        for(int i = 0; i < size; i++)
+        to = num ? num : size;
+
+        for(int i = 0; i < to; i++)
         {
             cout << array[i] << endl;
         }
     }
 
-    bool isFull()
+    bool IsFull()
     {
         return vindex < size ? false : true;
     }
 
     void Resize()
     {
+        cout << "RESIZE" << endl;
         int* temp;
-        size *= 2;
+        size += 10;
+        cout << size << endl;
         temp = new int[size];
-        for(int i; i < size; i++)
+        cout << "bb" << endl;
+        for(int i = 0; i < size; i++)
         {
             temp[i] = array[i];
         }
+        cout << "c" << endl;
         array[0] = temp[0];
         delete[] temp;
+        cout << "FIN" << endl;
     }
 
 
@@ -107,11 +157,17 @@ struct Vector
 int main()
 {
     Vector V;
-    for(int i = 0; i < 15; i++)
-    {
-        V.Push(i);
-    }
+    // for(int i = 0; i < 15; i++)
+    // {
+    //     V.PushRear(i);
+    // }
+
+    // for(int i = 0; i < 15; i++)
+    // {
+    //     V.PushFront(i);
+    // }
 
     V.Print();
+    cout << "Hello!" << endl;
     return(0);
 }
