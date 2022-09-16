@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <string>
 
 #define ISFULL if(IsFull()){Resize();}
@@ -16,23 +17,9 @@ struct Vector
 
     /*
         Functions
-        PushFront(int val)
-        PushFront(Vector v)
-
-        PushRear(int val)
-        PushRear(Vector v)
-
-        PushAt(int location, int val)
 
         InOrderPush(int val)
 
-        PopFront()
-
-        PopRear()
-
-        PopAt(int loc)
-
-        SearchPop(int val)
     */
 
    //Constructors
@@ -43,14 +30,44 @@ struct Vector
         size = 10;
     }
 
-    Vector(int *A, int size)
+    Vector(int _size)
     {
+        array = new int[size];
+        vindex = 0;
+        size = _size;
+    }
 
+    Vector(int *A, int _size)
+    {
+        array = new int[_size];
+        vindex = 0;
+        size = _size;
+
+        for(int i = 0; i < _size; i++)
+        {
+            array[i] = A[i];
+            vindex++;
+        }
     }
 
     Vector(string fileName)
     {
+        ifstream inpf;
+        int temp;
 
+        array = new int[10];
+        vindex = 0;
+        size = 10;
+
+        inpf.open(fileName);
+
+        while (!inpf.eof())
+        {
+            inpf >> temp;
+            this->PushRear(temp);
+        }
+
+        inpf.close();
     }
 
     ~Vector()
@@ -76,6 +93,7 @@ struct Vector
 
     void PushFront(Vector v)
     {
+        int* temp;
         
     }
 
@@ -90,6 +108,23 @@ struct Vector
 
     void PushRear(Vector v)
     {
+        int newSize = size + v.size;
+        int i, j;
+        int* temp= new int[newSize];
+
+        for (i = 0; i < size; i++)
+        {
+            temp[i] = array[i];
+        }
+        for(i = i, j = 0; i < newSize, j < v.size; i++, j++)
+        {
+            temp[i] = v.array[j];
+            vindex++;
+        }
+
+        delete[] array;
+        array = temp;
+        size = newSize;
 
     }
 
@@ -116,6 +151,8 @@ struct Vector
 
         int temp = array[0];
 
+        vindex--;
+
         for(int i = 0; i < vindex; i++)
         {
             array[i] = array[i + 1];
@@ -136,6 +173,8 @@ struct Vector
         ISEMPTY
 
         int temp = array[location];
+
+        vindex--;
         
         for(int i = location; i < vindex; i++)
         {
@@ -147,27 +186,45 @@ struct Vector
 
     int SearchPop(int val)
     {
-        int temp;
+        ISEMPTY
 
-        for(int i = 0; i < vindex; i++)
+        int temp = 0;
+        int i = 0;
+
+        for(i = 0; i < vindex; i++)
         {
-            temp = array[i];
+            if (val == array[i])
+            {
+                temp = i;
+                vindex--;
+                break;
+            }
         }
-        
+        if (temp)
+        {
+            for(i = i; i < vindex; i++)
+            {
+                array[i] = array[i + 1];
+            }      
+        }
+
+        return temp;
     }
 
     void Print(int num = 0)
     {
         int to;
 
-        to = num ? num : size;
+        to = num ? num : vindex;
 
+        cout << "[";
         for(int i = 0; i < to; i++)
         {
-            cout << array[i] << endl;
+            
+            cout << array[i] << ", ";
         }
 
-        cout << "---" << endl;
+        cout <<  "]" << endl;
     }
 
     bool IsFull()
@@ -197,24 +254,16 @@ struct Vector
 
 int main()
 {
-    Vector V;
-    for(int i = 0; i < 15; i++)
-    {
-        V.PushRear(i);
-    }
+    int arr[] = {1};
+    int arr2[] = {2, 3};
+    Vector V(arr, size(arr));
 
-    for(int i = 0; i < 15; i++)
-    {
-        V.PushFront(i);
-    }
+    Vector V2(arr2, size(arr2));
 
-    V.PushAt(0, 555);
+    V.Print();
+    V2.Print();
+    V.PushRear(V2);
+    V.Print();
 
-
-    V.Print(V.vindex);
-    cout << V.PopRear() << endl;
-    V.Print(V.vindex);
-    cout << V.PopAt(13) << endl;
-    V.Print(V.vindex);
     return(0);
 }
