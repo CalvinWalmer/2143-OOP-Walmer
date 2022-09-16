@@ -2,6 +2,7 @@
 #include <string>
 
 #define ISFULL if(IsFull()){Resize();}
+#define ISEMPTY if(IsEmpty()){cout << "Vector is empty. No values to pop!"; return 0;}
 
 using namespace std;
 
@@ -61,7 +62,7 @@ struct Vector
     //Push Methods
     void PushFront(int val)
     {
-        ISFULL;
+        ISFULL
 
         for(int i = vindex; i > 0; i--)
         {
@@ -69,8 +70,6 @@ struct Vector
         }
 
         array[0] = val;
-
-        cout << "PF " << val << endl;
 
         vindex++;
     }
@@ -82,11 +81,9 @@ struct Vector
 
     void PushRear(int val)
     {
-        ISFULL;
+        ISFULL
 
         array[vindex] = val;
-
-        cout << "PR " << val << endl;
 
         vindex++;
     }
@@ -98,7 +95,7 @@ struct Vector
 
     void PushAt(int location, int val)
     {
-        ISFULL;
+        ISFULL
 
         for(int i = vindex; i > location; i--)
         {
@@ -110,9 +107,53 @@ struct Vector
         vindex++;
     }
 
-    int Pop()
+
+
+    //POP METHODS
+    int PopFront()
     {
-        return(0);
+        ISEMPTY
+
+        int temp = array[0];
+
+        for(int i = 0; i < vindex; i++)
+        {
+            array[i] = array[i + 1];
+        }
+
+        return(temp);
+    }
+
+    int PopRear()
+    {
+        ISEMPTY
+        vindex--;
+        return(array[vindex]);
+    }
+
+    int PopAt(int location)
+    {
+        ISEMPTY
+
+        int temp = array[location];
+        
+        for(int i = location; i < vindex; i++)
+        {
+            array[i] = array[i + 1];
+        }
+
+        return temp;
+    }
+
+    int SearchPop(int val)
+    {
+        int temp;
+
+        for(int i = 0; i < vindex; i++)
+        {
+            temp = array[i];
+        }
+        
     }
 
     void Print(int num = 0)
@@ -125,6 +166,8 @@ struct Vector
         {
             cout << array[i] << endl;
         }
+
+        cout << "---" << endl;
     }
 
     bool IsFull()
@@ -132,22 +175,20 @@ struct Vector
         return vindex < size ? false : true;
     }
 
+    bool IsEmpty()
+    {
+        return vindex == 0;
+    }
+
     void Resize()
     {
-        cout << "RESIZE" << endl;
-        int* temp;
-        size += 10;
-        cout << size << endl;
-        temp = new int[size];
-        cout << "bb" << endl;
-        for(int i = 0; i < size; i++)
-        {
-            temp[i] = array[i];
+        size *= 2;
+        int *tempArray = new int[size];
+        for (int i = 0; i < vindex; i++) {
+            tempArray[i] = array[i];
         }
-        cout << "c" << endl;
-        array[0] = temp[0];
-        delete[] temp;
-        cout << "FIN" << endl;
+        delete[] array;
+        array = tempArray;
     }
 
 
@@ -157,17 +198,23 @@ struct Vector
 int main()
 {
     Vector V;
-    // for(int i = 0; i < 15; i++)
-    // {
-    //     V.PushRear(i);
-    // }
+    for(int i = 0; i < 15; i++)
+    {
+        V.PushRear(i);
+    }
 
-    // for(int i = 0; i < 15; i++)
-    // {
-    //     V.PushFront(i);
-    // }
+    for(int i = 0; i < 15; i++)
+    {
+        V.PushFront(i);
+    }
 
-    V.Print();
-    cout << "Hello!" << endl;
+    V.PushAt(0, 555);
+
+
+    V.Print(V.vindex);
+    cout << V.PopRear() << endl;
+    V.Print(V.vindex);
+    cout << V.PopAt(13) << endl;
+    V.Print(V.vindex);
     return(0);
 }
