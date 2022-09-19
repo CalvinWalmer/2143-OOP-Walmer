@@ -7,21 +7,13 @@
 
 using namespace std;
 
-struct Vector
+class Vector
 {
-    int* array;
-    int vindex;
-    int size;
+    int* array = nullptr;
+    int vindex = 0;
+    int size = 0;
 
-    bool isEmpty;
-
-    /*
-        Functions
-
-        InOrderPush(int val)
-
-    */
-
+public:
    //Constructors
     Vector()
     {
@@ -56,15 +48,22 @@ struct Vector
         int temp;
 
         array = new int[10];
+
         vindex = 0;
         size = 10;
 
         inpf.open(fileName);
 
+        if (!inpf)
+        {
+            cout << "File not found!" << endl;
+            exit;
+        }
+
         while (!inpf.eof())
         {
             inpf >> temp;
-            this->PushRear(temp);
+            this->pushRear(temp);
         }
 
         inpf.close();
@@ -77,7 +76,7 @@ struct Vector
     }
 
     //Push Methods
-    void PushFront(int val)
+    void pushFront(int val)
     {
         ISFULL
 
@@ -91,13 +90,34 @@ struct Vector
         vindex++;
     }
 
-    void PushFront(Vector v)
+    void pushFront(Vector &v)
     {
-        int* temp;
+        int newSize = vindex + v.vindex;
+        int i, j;
+        int* temp = nullptr;
+        cout << newSize << endl;
+        cout << temp;
+        temp = new int[newSize];
+        cout << "Moo" << endl;
+        for (i = 0; i < v.vindex; i++)
+        {
+            temp[i] = v.array[i];
+        }
+
+        for(i = i, j = 0; i < newSize; i++, j++)
+        {
+            temp[i] = array[j];
+        }
+        cout << "M" << endl;
+        array = nullptr;
+        delete[] array;
+        array = temp;
+        size = newSize;
+        vindex = newSize;
         
     }
 
-    void PushRear(int val)
+    void pushRear(int val)
     {
         ISFULL
 
@@ -106,29 +126,33 @@ struct Vector
         vindex++;
     }
 
-    void PushRear(Vector v)
+    void pushRear(Vector &v)
     {
-        int newSize = size + v.size;
+        int newSize = vindex + v.vindex;
         int i, j;
-        int* temp= new int[newSize];
+        int* temp = new int[newSize];
 
-        for (i = 0; i < size; i++)
+        for (i = 0; i < vindex; i++)
         {
             temp[i] = array[i];
         }
         for(i = i, j = 0; i < newSize, j < v.size; i++, j++)
         {
             temp[i] = v.array[j];
-            vindex++;
         }
 
+
+        array = nullptr;
         delete[] array;
         array = temp;
         size = newSize;
+        vindex = newSize;
+        
+
 
     }
 
-    void PushAt(int location, int val)
+    void pushAt(int location, int val)
     {
         ISFULL
 
@@ -142,10 +166,8 @@ struct Vector
         vindex++;
     }
 
-
-
     //POP METHODS
-    int PopFront()
+    int popFront()
     {
         ISEMPTY
 
@@ -161,22 +183,22 @@ struct Vector
         return(temp);
     }
 
-    int PopRear()
+    int popRear()
     {
         ISEMPTY
         vindex--;
         return(array[vindex]);
     }
 
-    int PopAt(int location)
+    int popAt(int location)
     {
         ISEMPTY
 
-        int temp = array[location];
+        int temp = array[location-1];
 
         vindex--;
         
-        for(int i = location; i < vindex; i++)
+        for(int i = location-1; i < vindex; i++)
         {
             array[i] = array[i + 1];
         }
@@ -184,11 +206,11 @@ struct Vector
         return temp;
     }
 
-    int SearchPop(int val)
+    int find(int val)
     {
         ISEMPTY
 
-        int temp = 0;
+        int temp = -2;
         int i = 0;
 
         for(i = 0; i < vindex; i++)
@@ -208,16 +230,17 @@ struct Vector
             }      
         }
 
-        return temp;
+        return temp + 1;
     }
 
-    void Print(int num = 0)
+    void print(int num = 0)
     {
         int to;
 
         to = num ? num : vindex;
 
         cout << "[";
+        // cout << VIN=" << vindex << " SZ=" << size << "|";
         for(int i = 0; i < to; i++)
         {
             
@@ -227,6 +250,7 @@ struct Vector
         cout <<  "]" << endl;
     }
 
+    private:
     bool IsFull()
     {
         return vindex < size ? false : true;
@@ -248,22 +272,81 @@ struct Vector
         array = tempArray;
     }
 
-
 };
 
 
 int main()
 {
-    int arr[] = {1};
-    int arr2[] = {2, 3};
-    Vector V(arr, size(arr));
 
-    Vector V2(arr2, size(arr2));
+int x = 0;
 
-    V.Print();
-    V2.Print();
-    V.PushRear(V2);
-    V.Print();
+Vector v1;
+v1.pushFront(18);
+v1.pushFront(20);
+v1.pushFront(25);
+v1.pushRear(18);
+v1.pushRear(20);
+v1.pushRear(25);
+v1.print();
+// [25, 20, 18, 18, 20, 25]
+
+int A[] = {11,25,33,47,51};
+Vector v2(A,5);
+v2.print();
+// [11, 25, 33, 47, 51]
+
+v2.pushFront(9);
+//v2.inOrderPush(27);
+v2.pushRear(63);
+v2.print();
+// [9, 11, 25, 33, 47, 51, 63]
+
+v1.pushRear(v2);
+v1.print();
+// [25, 20, 18, 18, 20, 25, 9, 11, 25, 33, 47, 51, 63]
+
+x = v1.popFront();
+x = v1.popFront();
+x = v1.popFront();
+v1.print();
+// [18, 20, 25, 9, 11, 25, 27, 33, 47, 51, 63]
+cout<<x<<endl;
+// 18
+
+x = v1.popRear();
+x = v1.popRear();
+x = v1.popRear();
+v1.print();
+// [18, 20, 25, 9, 11, 25, 27, 33]
+cout<<x<<endl;
+// 47
+
+x = v2.popAt(3);
+v2.print();
+// [9, 11, 33, 47, 51, 63]
+cout<<x<<endl;
+// 25
+
+x = v2.find(51);
+cout<<x<<endl;
+// 5
+
+x = v2.find(99);
+cout<<x<<endl;
+// -1
+
+Vector v3(v1);
+v3.print();
+// [18, 20, 25, 9, 11, 25, 27, 33]
+
+//v3.pushFront(v2);
+v3.print();
+//[9, 11, 25, 33, 47, 51, 63, 18, 20, 25, 9, 11, 25, 27, 33]
+
+Vector v4("input.dat");
+v4.pushRear(v3);
+v4.print();
+// [56, 61, 97, 66, 83, 25, 26, 11, 53, 49, 62, 18, 10, 18, 14, 3, 4, 23, 18, 24, 26, 27, 54, 14, 12, 45, 65, 98, 56, 97, 15, 84, 98, 9, 11, 25, 33, 47, 51, 63, 18, 20, 25, 9, 11, 25, 27, 33]
 
     return(0);
 }
