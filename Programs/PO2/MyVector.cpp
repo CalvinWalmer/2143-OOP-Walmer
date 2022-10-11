@@ -1,19 +1,21 @@
 /*****************************************************************************
 *                    
-*  Author:           Griffin
-*  Title:            Singly linked list vector implementation
+*  Author:           Calvin Walmer
+*  Title:            Program 2 - My Vector Class 2
 *  Course:           2143
-*  Semester:         Fall 2021
+*  Semester:         Fall 2022
 * 
 *  Description:
 *        Uses a singly linked list as the backend for an STL like "vector" 
-*        class definition.
+*        class definition. Written by Prof Griffin. Modified by Calvin Walmer
 * 
 *  Usage:
 *        Use it like a linked list now. More like a vector next program
 * 
-*  Files: TBD
+*  Files:   MyVector.cpp : Implementation of features
+            source.cpp : Driver code for class
 *****************************************************************************/
+
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -313,6 +315,21 @@ public:
         return os;
     }
 
+
+
+    /**
+     * Public : operator<<
+     * 
+     * Description:
+     *      Overloads the << operator to be used with an out file stream.
+     * 
+     * Params:
+     *      - ofstream& : reference to the out stream that is being accessed
+     *      - const MyVector& : reference to the vector that is to be printed.
+     * 
+     * Returns:
+     *      - ofstream& : the full content of the vector
+     */
     friend ofstream& operator<<(ofstream& os, const MyVector& rhs) 
     {
     Node* temp = rhs.head;  // temp pointer copies head
@@ -331,6 +348,20 @@ public:
     return os;
     }
 
+
+    /**
+     * Public : operator[]
+     * 
+     * Description:
+     *      Overloads the [] operator so that the vector can be accessed in the
+     *      same wya that an array can be accessed.
+     * 
+     * Params:
+     *      - int : the location of the item that is to be returned
+     * 
+     * Returns:
+     *      - int : the value at location, loc
+     */
     int operator[](int loc)
     {
         Node* temp = this->head;
@@ -353,6 +384,20 @@ public:
         return i;
     }
 
+    /**
+     * Public : operator+
+     * 
+     * Description:
+     *      Overloads the + operator so that two vectors can easily be added.
+     *      Adds items in the same location in both vectors and stores them in a new 
+     *      vector.
+     * 
+     * Params:
+     *      - const MyVector& : reference to the vector that is being added to THIS vector.
+     * 
+     * Returns:
+     *      - MyVector : a vector that is the result of adding both vectors item-wise
+     */
     MyVector operator+(const MyVector &rhs)
     {
 
@@ -397,6 +442,20 @@ public:
 
     }
 
+    /**
+     * Public : operator-
+     * 
+     * Description:
+     *      Overloads the - operator so that two vectors can easily be subtracted from each other.
+     *      Subtracts items in the same location in both vectors and stores them in a new 
+     *      vector.
+     * 
+     * Params:
+     *      - const MyVector& : reference to the vector that is being subtracted from THIS vector.
+     * 
+     * Returns:
+     *      - MyVector : a vector that is the result of subtracting a second vector from this vector item-wise.
+     */
     MyVector operator-(const MyVector &rhs)
     {
 
@@ -441,7 +500,20 @@ public:
 
     }
 
-    
+    /**
+     * Public : operator*
+     * 
+     * Description:
+     *      Overloads the * operator so that two vectors can easily be multiplied.
+     *      Multiplies items in the same location in both vectors and stores them in a new 
+     *      vector.
+     * 
+     * Params:
+     *      - const MyVector& : reference to the vector that is being multiplied by THIS vector.
+     * 
+     * Returns:
+     *      - MyVector : a vector that is the result of multiplying both vectors item-wise
+     */
     MyVector operator*(const MyVector &rhs)
     {
 
@@ -486,7 +558,20 @@ public:
 
     }
 
-
+    /**
+     * Public : operator/
+     * 
+     * Description:
+     *      Overloads the / operator so that two vectors can easily be divided by each other.
+     *      Divides items in the same location in both vectors and stores them in a new 
+     *      vector.
+     * 
+     * Params:
+     *      - const MyVector& : reference to the vector that THIS vector is being divided by.
+     * 
+     * Returns:
+     *      - MyVector : a vector that is the result of this vector being divided by a second vector item-wise
+     */
     MyVector operator/(const MyVector &rhs)
     {
 
@@ -531,7 +616,20 @@ public:
 
     }
 
-
+    /**
+     * Public : operator+
+     * 
+     * Description:
+     *      Overloads the == operator so that two vectors can easily be compared.
+     *      Compares items in the same location in both vectors and returns true if the vectors
+     *      contain all the same items.
+     * 
+     * Params:
+     *      - const MyVector& : reference to the vector that is being compared to THIS vector.
+     * 
+     * Returns:
+     *      - bool : true if both vectors contain the same items. false if the vectors contain different items.
+     */
     bool operator==(const MyVector &rhs)
     {
         int i = 0;
@@ -567,7 +665,19 @@ public:
         return(true);
     }
 
-
+    /**
+     * Public : operator=
+     * 
+     * Description:
+     *      Overloads the = operator so that two vectors can easily be copied.
+     *      Creates a deep copy of the vector instead of using a primitive copy constructor.
+     * 
+     * Params:
+     *      - const MyVector& : reference to the vector that is being copied by THIS vector.
+     * 
+     * Returns:
+     *      - MyVector : a vector that is the result of the copied vector.
+     */
     MyVector operator=(const MyVector &rhs)
     {
         int* arr = new int[rhs.size];

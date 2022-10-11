@@ -11,28 +11,33 @@ int main()
     MyVector V1(A1, sizeof(A1) / sizeof(int));
     MyVector V2(A2, sizeof(A2) / sizeof(int));
 
-    cout << V1 << endl;
-    cout << V2 << endl;
+    ofstream fout;
+    fout.open("output.txt");
 
-    cout << V1 + V2 << endl;
+    fout << V1 << endl;
 
-    cout << V1 - V2 << endl;
+    fout << V1 << endl;
+    fout << V2 << endl;
 
-    cout << V1 * V2 << endl;
+    fout << V1 + V2 << endl;
 
-    cout << V1 / V2 << endl;
+    fout << V1 - V2 << endl;
 
-    cout << V2 / V1 << endl;
+    fout << V1 * V2 << endl;
 
-    cout << (V1 == V2) << endl;
+    fout << V1 / V2 << endl;
+
+    fout << V2 / V1 << endl;
+
+    fout << (V1 == V2) << endl;
 
     MyVector V3 = V2;
 
-    cout << V2 << endl;
+    fout << V2 << endl;
 
-    cout << V3 << endl;
+    fout << V3 << endl;
 
-    cout << (V2 == V3) << endl;
+    fout << (V2 == V3) << endl;
 
     return(0);
 }
