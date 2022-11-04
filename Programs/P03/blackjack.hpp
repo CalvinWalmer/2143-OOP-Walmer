@@ -4,18 +4,15 @@
 #include <stdio.h>
 #include <string>
 #include <time.h>
-//#include <sys/ioctl.h>
-//#include <unistd.h>
 #include <vector>
 
 using namespace std;
 
-const string spade = "S";//"♠";
-const string diamond = "D";//"♦";
-const string heart = "H";//"♥";
-const string club = "C";//"♣";
+const string spade = "S"; //"♠";
+const string diamond = "D"; //"♦";
+const string heart = "H"; //"♥";
+const string club = "C"; //"♣";
 
-//const string suits[4] = { "♠", "♥", "♦", "♣" };
 const string suits[4] = { "S", "H", "D", "C" };
 
 string Black = "0";
@@ -31,59 +28,6 @@ string Default = "9";
 void printColor(string out, int fg, int bg = 9) {
 	cout << "\033[0;3" << fg << ";4" << bg << "m" << out << "\033[0;39;49m";
 }
-
-void gotoXY(int row, int col) {
-	cout << "\033[" << row << ";" << col << "H";
-}
-
-//struct winsize w;
-//struct WindowSize {
-//	int rows;
-//	int cols;
-//
-//	/**
-//	 * Uses some built in libraries to get a terminal window size.
-//	 *      stdio.h, sys/ioctl.h, unistd.h
-//	 */
-//	WindowSize() {
-//		// magic happens here
-//		ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-//
-//		// place values in more readable
-//		// vars here ...
-//		rows = w.ws_row;
-//		cols = w.ws_col;
-//	}
-//
-//	/**
-//	 * Guess
-//	 */
-//	int termWidth() {
-//		return cols;
-//	}
-//
-//	/**
-//	 * Guess
-//	 */
-//	int termHeight() {
-//		return rows;
-//	}
-//
-//	/**
-//	 * Random int between 0 and width of terminal window
-//	 */
-//	int randCol() {
-//		return rand() % cols;
-//	}
-//
-//	/**
-//	 * Random int between 0 and height of terminal window
-//	 */
-//	int randRow() {
-//		return rand() % rows;
-//	}
-//};
-
 
 // Card labels (could be "Iron Man" or "Charmander" or "Elf" ... anything)
 const string ranks[13] =
@@ -202,7 +146,6 @@ Card::Card(int num) {
 		number = num;
 		suitNum = number / 13;
 		suitChar = suits[suitNum];
-		// fcolor = to_string(1+ rand() % 7);
 		fcolor = to_string(suitNum + 2);
 		bcolor = "9";
 		rank = number % 13;
@@ -381,6 +324,20 @@ public:
 		return Cards.size();
 	}
 
+
+    /**
+     * Public : Value
+     * 
+     * Description:
+     *      Adds up the cards in the container and returns that value.
+     *      The value of aces can be adjusted with the int param aceValue.
+     * 
+     * Params:
+     *         int aceValue     The value of the ace.
+     * 
+     * Returns:
+     *      - Returns an integer sum of the values of the cards in the hand.
+     */
 	int Value(int aceValue = 11)
 	{
 		int sum = 0;
@@ -393,7 +350,7 @@ public:
 				sum += card->value;
 		}
 
-		if (sum > 21 && aceValue == 11)
+		if (sum > 21 && aceValue == 11) //Since we are trying to avoid busting. If the aces are a large value we will automatically reduce them
 			return(Value(1));
 		else
 			return(sum);
@@ -403,10 +360,31 @@ public:
 
 
 
-
+/**
+ * Player
+ * 
+ * Description:
+ *      Player object represents a player (as opposed to the dealer) in a game of blackjack.
+ *      Players have a hand, some money and a bet amount.
+ * 
+ * Public Methods:
+ *      - Player          Constructor
+ *      - SetBet          bool
+ *      - GetBank         double
+ *      - GetHand         Hand*
+ *      - Pay(double)     void
+ *      - Collect(double) void
+ * 
+ * 
+ * Usage: 
+ * 
+ *  Player player;
+ *  
+ *  cout << *player.GetHand();
+ *      
+ */
 class Player {
 protected:
-	string name;
 	Hand* hand;
 	double bank;
 	double bet;
@@ -418,12 +396,18 @@ public:
 		hand = new Hand();
 		bank = 100;
 	}
-
-	double GetBank()
-	{
-		return bank;
-	}
-
+    /**
+     * Public : SetBet
+     * 
+     * Description:
+     *      Allows player to set their bet as long as it is greater than their bank amount.
+     * 
+     * Params:
+     *         none
+     * 
+     * Returns:
+     *      - A bool that indicates if the setting of the bet was successful.
+     */
 	bool SetBet()
 	{
 		double _bet;
@@ -476,26 +460,42 @@ public:
 
 	}
 
-	Hand* GetHand() { return hand; };
+    double GetBank() { return bank; }
 
-	double GetBet()
-	{
-		return bet;
-	}
+	Hand* GetHand() { return hand; }
 
-	void Pay(double amount)
-	{
-		this->bank += amount;
-	}
+	double GetBet() { return bet; }
 
-	void Collect(double amount)
-	{
-		this->bank -= amount;
-	}
+	void Pay(double amount) { this->bank += amount; }
+
+	void Collect(double amount) { this->bank -= amount; }
 };
 
 
-
+/**
+ * BlackJackGame
+ * 
+ * Description:
+ *      Class implements a main logic loop that combines the other elements
+ *      of the blackjack.hpp file to form a fully functional game.
+ * 
+ * Public Methods:
+ *      - BlackJackGame     Constructor
+ *      - Start()           Void    Starts an continues the game as long as the player has money
+ * 
+ * Private Methods:
+ *      - PrintGUI(int)     void    Prints different versions of the GUI based on the int parameter
+ *      - Upkeep()          void    Resets deck and hands
+ *      - Win(float)        void    Procedure if player wins. Pays a multiplier on the bet based on int parameter
+ *      - Lose()            void    Procedure if player loses
+ *      - Tie()             void    Procedure if there is a tie
+ * 
+ * Usage: 
+ * 
+ *  BlackJackGame game;
+ *  game.Start()
+ *      
+ */
 	class BlackJackGame
 	{
 		Player player;
@@ -504,15 +504,20 @@ public:
 		int endGame;
 		int move;
 
-	public:
+	private:
 
-		BlackJackGame()
-		{
-			srand(time(0));
-			dealer = new Hand();
-			endGame = false;
-		}
-
+    /**
+     * Private : PrintGUI
+     * 
+     * Description:
+     *      Prints the game gui so the player knows what he can or cannot do.
+     * 
+     * Params:
+     *      int     stage       determines which gui will be displayed
+     * 
+     * Returns:
+     *      nothing.
+     */
 		void PrintGUI(int stage)
 		{
 			//STAGES 1. Player Turn, 2. Dealer Turn, 3. Loss, 4. Win!
@@ -574,6 +579,18 @@ public:
 
 		}
 
+    /**
+     * Private : Upkeep
+     * 
+     * Description:
+     *      Resets all hands and shuffles the deck so a new round can be played
+     * 
+     * Params:
+     *      none
+     * 
+     * Returns:
+     *          nothing!
+     */
 		void Upkeep()
 		{
 			move = 0;
@@ -583,23 +600,95 @@ public:
 			deck.Shuffle();
 		}
 
+    /**
+     * Private : Lose
+     * 
+     * Description:
+     *      Procedure if the player loses. Collets money;
+     * 
+     * Params:
+     *      none
+     * 
+     * Returns:
+     *      nothing!
+     */
 		void Lose()
 		{
 			PrintGUI(3);
 			player.Collect(player.GetBet());
 		}
 
+    /**
+     * Private : Win
+     * 
+     * Description:
+     *      Procedure if the player Wins. Pays the player a multiple of their bet based on param;
+     * 
+     * Params:
+     *      float multi     the value the player's original bet will be multiplied by and then paid to them.
+     * 
+     * Returns:
+     *      nothing!
+     */
 		void Win(float multi = 1)
 		{
 			PrintGUI(5);
 			player.Pay(player.GetBet() * multi);
 		}
 
+    /**
+     * Private : Tie
+     * 
+     * Description:
+     *      Procedure if there is a tie.
+     * 
+     * Params:
+     *      none
+     * 
+     * Returns:
+     *      nothing!
+     */
 		void Tie()
 		{
 			PrintGUI(4);
 		}
 
+
+    public:
+
+    /**
+     * Public : BlackJackGame()
+     * 
+     * Description:
+     *      Constructor. Sets the dealers hand and makes sure the game doesn't end immediately.
+     * 
+     * Params:
+     *      none
+     * 
+     * Returns:
+     *      nothing!
+     */
+		BlackJackGame()
+		{
+			srand(time(0));
+			dealer = new Hand();
+			endGame = false;
+		}
+
+    /**
+     * Public : Start
+     * 
+     * Description:
+     *      Main logic loop of a blackjack game. Based upon real life blackjack rules sans insurance and splitting.
+     *      First gets players bet and then deals cards to both the dealer and player. After the player makes all their moves,
+     *      the dealer goes and then function decides who won.
+     * 
+     * Params:
+     *      none
+     * 
+     * Returns:
+     *      nothing!
+     */
 		void Start()
 		{
 			while (!endGame)
@@ -666,11 +755,9 @@ public:
 					}
 				}
 
-
-				//print player hand and 1 of the dealers cards
 				do
 				{
-					cin >> endGame;
+					cin >> endGame; //asking user if they want to play again
 				} while (endGame != 1 && endGame != 2);
 				endGame--;
 			}
