@@ -1,6 +1,7 @@
+#include <chrono>
 #include <iostream>
 #include <map>
-#include <chrono>
+#include <random>
 using namespace std;
 
 #define ROCK u8"\U0000270A"
@@ -22,25 +23,27 @@ const string lizard = LIZARD2;
 const string spock = SPOCK2;
 
 struct Player {
+    mt19937 eng;
     int weapon1;
     int weapon2;
-    int weaponT;
     // Does r beat c?   R  P  S  L  S         -1 = No, 0 = Tie, 1 = Yes
-    int lookup[5][5] = { 0, -1, 1, 1, -1,   //R
-                        1, 0, -1, -1, 1,   //P
-                        -1, 1, 0, 1, -1,   //S
-                        -1, 1, -1, 0, 1,   //L
-                        1, -1, 1, -1, 0, }; //S
+    int lookup[5][5] = {
+        0,  -1, 1,  1,  -1, // R
+        1,  0,  -1, -1, 1,  // P
+        -1, 1,  0,  1,  -1, // S
+        -1, 1,  -1, 0,  1,  // L
+        1,  -1, 1,  -1, 0,
+    }; // S
 
     /**
      * Constructor guarantees a player has two different "weapons"
      */
     Player() {
 
-        srand();
+        eng = seeded_engine();
+
         weapon1 = GenerateWeapon();
         weapon2 = GenerateWeapon();
-        weaponT = GenerateWeapon();
 
         // if both weapons are the same
         // choose another.
@@ -49,130 +52,138 @@ struct Player {
         }
     }
 
-    int GenerateWeapon()
-    {
-        return (rand() % 5);
-    }
-
-    bool TieBreaker(Player rhs)
-    {
-        while (weaponT == rhs.weapon1) {
-            weaponT = GenerateWeapon();
-            rhs.weaponT = GenerateWeapon();
-        }
-        if (weaponT > rhs.weaponT)
-            return true;
-        else
-            return false;
-    }
-
-    bool operator<(Player rhs)
-    {
-        switch (lookup[weapon1][rhs.weapon1])
-        {
-            case -1:
-                return true;
-            case 1:
-                return false;
+    string emoji(int round) {
+        if (round == 1) {
+            switch (weapon1) {
             case 0:
-                return !TieBreaker(rhs);
+                return rock;
+            case 1:
+                return paper;
+            case 2:
+                return scissors;
+            case 3:
+                return lizard;
+            case 4:
+                return spock;
+            }
+        }
+        else {
+            switch (weapon2) {
+            case 0:
+                return rock;
+            case 1:
+                return paper;
+            case 2:
+                return scissors;
+            case 3:
+                return lizard;
+            case 4:
+                return spock;
+            }
         }
     }
 
-    bool operator>(Player rhs)
-    {
-        switch (lookup[weapon1][rhs.weapon1])
-        {
-        case -1:
-            return false;
-        case 1:
-            return true;
-        case 0:
-            return TieBreaker(rhs);
+    mt19937 seeded_engine() {
+        random_device r;
+        seed_seq seed{ r(), r(), r(), r(), r(), r(), r(), r() };
+        return (mt19937(seed));
+    }
+
+    int GenerateWeapon() { return uniform_int_distribution<>(0, 4)(eng); }
+
+    bool TieBreaker(Player opponent, int round) {
+
+        if (round == 1) {
+            while (weapon1 == opponent.weapon1) {
+                weapon1 = GenerateWeapon();
+                opponent.weapon1 = GenerateWeapon();
+            }
+
+            switch (lookup[weapon1][opponent.weapon1]) {
+            case -1:
+                return false;
+            case 1:
+                return true;
+            }
+        }
+        else {
+            while (weapon2 == opponent.weapon2) {
+                weapon2 = GenerateWeapon();
+                opponent.weapon2 = GenerateWeapon();
+            }
+
+            switch (lookup[weapon2][opponent.weapon2]) {
+            case -1:
+                return false;
+            case 1:
+                return true;
+            }
         }
     }
 
-    bool operator==(const Player rhs)
-    {
-        switch (lookup[weapon1][rhs.weapon1])
-        {
-        case 0:
-            return true;
-        default:
-            return false;
+    bool Battle(Player opponent, int round) {
+        if (round == 1) {
+            switch (lookup[weapon1][opponent.weapon1]) {
+            case -1:
+                return false;
+            case 1:
+                return true;
+            case 0:
+                return TieBreaker(opponent, round);
+            }
+        }
+        else {
+            switch (lookup[weapon2][opponent.weapon2]) {
+            case -1:
+                return false;
+            case 1:
+                return true;
+            case 0:
+                return TieBreaker(opponent, round);
+            }
         }
     }
-
-    // other possible methods
 };
 
-
-
-class RPSLS
-{
+class RPSLS {
 private:
+    bool endGame = true;
 
-    bool endGame = false;
 public:
-
     RPSLS() {};
-    void Start()
-    {
-        while (!endGame)
-        {
+
+    void Start() {
+        while (endGame) {
             Player p1, p2;
 
-            cout << p1.weapon1 << endl;
-            cout << p1.weapon2 << endl;
-            cout << p2.weapon1 << endl;
-            cout << p2.weapon2 << endl;
+            if (p1.Battle(p2, 1)) {
+                cout << "Player 1's " << p1.emoji(1) << " beat Player 2's "
+                    << p2.emoji(1) << "!" << endl;
+            }
+            else {
+                cout << "Player 2's " << p2.emoji(1) << " beat Player 1's "
+                    << p1.emoji(1) << "!" << endl;
+            }
 
+            if (p1.Battle(p2, 2)) {
+                cout << "Player 1's " << p1.emoji(2) << " beat Player 2's "
+                    << p2.emoji(2) << "!" << endl;
+            }
+            else {
+                cout << "Player 2's " << p2.emoji(2) << " beat Player 1's "
+                    << p1.emoji(2) << "!" << endl;
+            }
 
-            //if (p1.weapon1 > p2.weapon1) {
-            //    cout << "Player 1's " << p1.weapon1 << " beat Player 2's " << p2.weapon1 << "!" << endl;
-            //}
-            //else if (p2.weapon1 > p1.weapon1) {
-            //    cout << "Player 2's " << p2.weapon1 << " beat Player 1's " << p1.weapon1 << "!" << endl;
-            //}
-            //else {
-            //    cout << "In the Tie Breaker Round: " << endl;
-            //    if (p1.weaponT > p2.weaponT) {
-            //        cout << "Player 1's " << p1.weaponT << " beat Player 2's " << p2.weaponT << "!" << endl;
-            //    }
-            //    else if (p2.weaponT > p1.weaponT) {
-            //        cout << "Player 2's " << p2.weaponT << " beat Player 1's " << p1.weaponT << "!" << endl;
-
-            //    }
-            //}
-
-            //if (p1.weapon2 > p2.weapon2) {
-            //    cout << "Player 1's " << p1.weapon2 << " beat Player 2's " << p2.weapon2 << "!" << endl;
-            //}
-            //else if (p2.weapon2 > p1.weapon2) {
-            //    cout << "Player 2's " << p2.weapon2 << " beat Player 1's " << p1.weapon2 << "!" << endl;
-            //}
-            //else {
-            //    cout << "In the Tie Breaker Round: " << endl;
-            //    if (p1.weaponT > p2.weaponT) {
-            //        cout << "Player 1's " << p1.weaponT << " beat Player 2's " << p2.weaponT << "!" << endl;
-            //    }
-            //    else if (p2.weaponT > p1.weaponT) {
-            //        cout << "Player 2's " << p2.weaponT << " beat Player 1's " << p1.weaponT << "!" << endl;
-
-            //    }
-            //}
-
+            cout << "Play another round? (1/0): ";
             cin >> endGame;
-
         }
     }
 };
 
-int main()
-{
+int main() {
     RPSLS r;
 
     r.Start();
 
-    return(0);
+    return (0);
 }
