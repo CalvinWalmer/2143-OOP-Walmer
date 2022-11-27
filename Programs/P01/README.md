@@ -18,8 +18,8 @@
 - The program requires there to be an input.dat file that contains numberto push onto the vector.
 - The input file should be formatted with a number on each line
 
-+------------+
-| 92         |
-| 27         |
-| etc...     |
++------------+\
+| 92         |\
+| 27         |\
+| etc...     |\
 +------------+
