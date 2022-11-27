@@ -19,7 +19,7 @@
 - The input file should be formatted with a number on each line
 
 +------------+\
-| 92         |\
-| 27         |\
-| etc...     |\
+92\
+27\
+etc...\
 +------------+
