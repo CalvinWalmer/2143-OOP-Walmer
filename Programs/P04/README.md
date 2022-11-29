@@ -1,34 +1,18 @@
-## P02 - Bouncy Balls
-### Sally Smith
+## P03 - BlackJack Game
+### Calvin Walmer
 ### Description:
 
-Bacon ipsum dolor amet pork loin kielbasa pork, drumstick leberkas shankle strip steak fatback beef ribs ham hock.
-Pork short ribs doner andouille cupim pastrami picanha landjaeger pig. Salami swine capicola spare ribs boudin
-leberkas. Capicola ground round pork meatloaf, ham jowl swine prosciutto bacon alcatra pancetta burgdoggen pig
-spare ribs leberkas. Shankle fatback ground round, porchetta frankfurter cupim venison strip steak pig meatball
-biltong filet mignon. Shoulder chislic ground round pork burgdoggen hamburger.
+This program is a console based playable game of blackjack. The game is played agains the dealer and is one player. Prompts for actions are provided on the console. The player is given 100 money to start with and is allowed to play until they run out of money. The game does not implement splitting or insurance but automatically decides the value of the ace for both the player and the dealer that opts for the most ideal option for their hand. The program aims to use various OOP practices such as encasulation and inheritance.
 
 ### Files
 
 |   #   | File            | Description                                        |
 | :---: | --------------- | -------------------------------------------------- |
-|   1   | Main.cpp         | Main driver of my project that launches game.      |
-|   2   | HelperClass.cpp  | Helper class that holds movement functions         |
-|   3   | TextureClass.cpp | Helper class that assists with textures and images |
+|   1   | blackjack.hpp   | Class implementation of the entire game            |
+|   2   | source.cpp      | Driver code that declares and starts the game      |
+
 
 ### Instructions
 
-- Make sure you install library `blahblah.cpp`
-- My program expects two parameters to be placed on the command line when you run the program.
-- Parameters `<input file> <number of players>`
-- The input file should be formatted with a players name and age on a seperate line:
-
-+------------+
-| name1 age1 |
-| name2 age2 |
-| etc...     |
-+------------+
-
-- Example Command:
-    - `python <code> <input file> <num players>`
-    - `python main.cpp input.txt 3`
+- Make sure you place blackjack.hpp and source.cpp in the same directory.
+- Run source.cpp
