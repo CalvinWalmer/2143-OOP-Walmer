@@ -1,18 +1,15 @@
-## P03 - BlackJack Game
+## P04 - Rock Paper Scissors Lizard Spock (RPSLS)
 ### Calvin Walmer
 ### Description:
 
-This program is a console based playable game of blackjack. The game is played agains the dealer and is one player. Prompts for actions are provided on the console. The player is given 100 money to start with and is allowed to play until they run out of money. The game does not implement splitting or insurance but automatically decides the value of the ace for both the player and the dealer that opts for the most ideal option for their hand. The program aims to use various OOP practices such as encasulation and inheritance.
+This program is a console based simulation of RPSLS. The player cannot play the game because the game generates two players that play against each other. The output of the program contains emojis so output may not look correct on all systems. The program generates two players with random weapons and then pits them against each other. The program uses a lookup table to determine who won the round. If there is a tie, the weapons are regenerated until the two weapons are not the same.
 
 ### Files
 
 |   #   | File            | Description                                        |
 | :---: | --------------- | -------------------------------------------------- |
-|   1   | blackjack.hpp   | Class implementation of the entire game            |
-|   2   | source.cpp      | Driver code that declares and starts the game      |
+|   1   | RPLSS.cpp       | Class implementation of the entire game and driver code|
 
 
 ### Instructions
-
-- Make sure you place blackjack.hpp and source.cpp in the same directory.
-- Run source.cpp
+- Compile and run RPLSS.cpp
