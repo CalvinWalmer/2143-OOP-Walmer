@@ -28,8 +28,10 @@ public:
 	{
 		//ChooseFriends();
 		character = FighterFactory::createFighter(3);
-		opponent = FighterFactory::createFighter(2);
-		DisplayGUI();
+		cout << enemies.size();
+		cout << "goodbye" << endl;
+		//opponent = FighterFactory::createFighter(2);
+		//DisplayGUI();
 	}
 private:
 	bool FileFound()
@@ -44,6 +46,7 @@ private:
 		while (!infile.eof())
 		{
 			infile >> line;
+			cout << line << endl;
 			enemies.push_back(FighterFactory::createFighter(line));
 		}
 

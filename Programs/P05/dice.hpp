@@ -15,6 +15,7 @@ class Die {
     void Seed()
     {
         eng = seeded_engine();
+        srand(time(NULL));
     }
 
     /**
@@ -41,7 +42,8 @@ public:
     int roll(int rolls = 1) {
         int sum = 0;
         while (rolls--) {
-            sum += uniform_int_distribution<>(1, sides)(eng);
+            //sum += uniform_int_distribution<>(1, sides)(eng);
+            sum += (rand() % sides) + 1;
         }
         return sum;
     };
