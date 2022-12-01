@@ -1,0 +1,35 @@
+{
+  "fighter": [
+    {
+      "Warrior": {
+        "HP": "1.d.10",
+        "RR": "0.25",
+        "Weapon": "Sword"
+      },
+
+      "Wizard": {
+        "HP": "1.d.10",
+        "RR": "0.3",
+        "Weapon": "Spell"
+      },
+
+      "Dragonborn": {
+        "HP": "1.d.10",
+        "RR": "0.3",
+        "Weapon": "Fire Sword"
+      },
+
+      "Elf": {
+        "HP": "1.d.10",
+        "RR": "0.35",
+        "Weapon": "Enchanted Sword"
+      },
+
+      "Archer": {
+        "HP": "1.d.10",
+        "RR": "0.25",
+        "Weapon": "Bow"
+      }
+    }
+  ]
+}
