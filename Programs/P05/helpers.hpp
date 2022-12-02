@@ -41,3 +41,20 @@ vector<string> tokenize(string s, string delimiter) {
 string randomChoice(vector<string> choices) {
     return choices[rand() % choices.size()];
 }
+
+int GetIntInput(int lBound, int uBound)
+{
+    string inp;
+	int choice;
+    do
+    {
+        getline(cin, inp);
+        stringstream stream(inp);
+        if(stream >> choice)
+            if (choice >= lBound && choice <= uBound)
+                break;
+        cout << "Invalid Input" << endl;
+    }while(true);
+
+    return choice;
+}

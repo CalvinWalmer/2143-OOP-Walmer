@@ -33,6 +33,7 @@ public:
     }
 
     int GetHP() { return HP; }
+    int GetMaxHP() { return max_HP; }
     string GetWeapon() { return weapon->GetName(); }
     string GetFighterType() { return name; }
 
@@ -41,8 +42,15 @@ public:
         HP = HP + (max_HP * RR) > max_HP ? max_HP : HP + (max_HP * RR);
     }
 
+    void Damage(int value)
+    {
+        HP -= value;
+    }
+
+    bool isDead(){return (HP <= 0);}
+
     friend ostream& operator<<(ostream& os, const BaseFighter& f) {
-        return os << "[" << f.name << " , " << *f.weapon << "]";
+        return os << f.name << " HP: "  << f.HP << "/" << f.max_HP << " "  << string(f.HP, (char)987) << string(f.max_HP - f.HP, ' ') << "| Weapon: " << *f.weapon;
     }
 
 };
@@ -53,8 +61,9 @@ public:
     Warrior()
     {
         name = "Warrior";
-        max_HP = (new Dice("1.d.10"))->roll();
-        RR = .25;
+        max_HP = (new Dice("3.d.3"))->roll() + 4;
+        HP = max_HP;
+        RR = .125;
         weapon = WeaponFactory::createWeapon("Sword");
     }
 };
@@ -65,9 +74,9 @@ public:
     Wizard()
     {
         name = "Wizard";
-        max_HP = (new Dice("1.d.10"))->roll();
+        max_HP = (new Dice("3.d.3"))->roll() + 4;
         HP = max_HP;
-        RR = .3;
+        RR = .14;
         weapon = WeaponFactory::createWeapon("Spell");
     }
 };
@@ -78,9 +87,9 @@ public:
     Dragonborn()
     {
         name = "Dragonborn";
-        max_HP = (new Dice("1.d.10"))->roll();
+        max_HP = (new Dice("3.d.4"))->roll() + 4;
         HP = max_HP;
-        RR = .3;
+        RR = .14;
         weapon = WeaponFactory::createWeapon("Fire Sword");
     }
 };
@@ -91,9 +100,9 @@ public:
     Archer()
     {
         name = "Archer";
-        max_HP = (new Dice("1.d.10"))->roll();
+        max_HP = (new Dice("2.d.2"))->roll() + 4;
         HP = max_HP;
-        RR = .25;
+        RR = .125;
         weapon = WeaponFactory::createWeapon("Bow");
     }
 };
@@ -104,9 +113,9 @@ public:
     Elf()
     {
         name = "Elf";
-        max_HP = (new Dice("1.d.10"))->roll();
+        max_HP = (new Dice("3.d.2"))->roll() + 4;
         HP = max_HP;
-        RR = .35;
+        RR = .2;
         weapon = WeaponFactory::createWeapon("Enchanted Sword");
     }
 };
@@ -126,7 +135,7 @@ public:
         {
             fighter = new Wizard;
         }
-        else if (type == "Dragonborn")
+        else if (type == "DragonBorn")
         {
             fighter = new Dragonborn;
         }

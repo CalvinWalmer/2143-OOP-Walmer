@@ -43,7 +43,7 @@ public:
     }
 
     friend ostream& operator<<(ostream& os, const Weapon& w) {
-        return os << "[" << w.name << " , " << w.damage << "]";
+        return os << w.name << " Damage: " << w.damage;
     }
 };
 
@@ -53,7 +53,7 @@ public:
     Sword()
     {
         name = "Sword";
-        damage = "3.d.4";
+        damage = "1.d.4";
         die = new Dice(damage);
     }
 };
@@ -64,7 +64,7 @@ public:
     Bow()
     {
         name = "Bow";
-        damage = "1.d.8";
+        damage = "2.d.4";
         die = new Dice(damage);
     }
 };
@@ -75,7 +75,7 @@ public:
     Spell()
     {
         name = "Magic Spell";
-        damage = "3.d.6";
+        damage = "2.d.3";
         die = new Dice(damage);
     }
 };
@@ -86,7 +86,7 @@ public:
     EnchantedSword()
     {
         name = "Enchanted Sword";
-        damage = "3.d.6";
+        damage = "2.d.4";
         die = new Dice(damage);
     }
 };
@@ -97,7 +97,7 @@ public:
     FireSword()
     {
         name = "Fire Sword";
-        damage = "4.d.5";
+        damage = "4.d.2";
         die = new Dice(damage);
     }
 };

@@ -2,33 +2,25 @@
 ### Calvin Walmer
 ### Description:
 
-Bacon ipsum dolor amet pork loin kielbasa pork, drumstick leberkas shankle strip steak fatback beef ribs ham hock.
-Pork short ribs doner andouille cupim pastrami picanha landjaeger pig. Salami swine capicola spare ribs boudin
-leberkas. Capicola ground round pork meatloaf, ham jowl swine prosciutto bacon alcatra pancetta burgdoggen pig
-spare ribs leberkas. Shankle fatback ground round, porchetta frankfurter cupim venison strip steak pig meatball
-biltong filet mignon. Shoulder chislic ground round pork burgdoggen hamburger.
+This program is a game in which a large group of attackers outnumber your small group of defenders by 100 to 1. A mighty battle is waged between the attackers and defenders. The defenders are allowed in a room so they are allowed to switch out freely at will and rest. The defenders however are in a hallway and can only attack one at a time. The program implements simple turn based combat. Under the hood there are examples of dyanmic polymorphism and a factory design pattern utilization.
+
+The program reads enemies from an input fill and then lets the user pick thier party based off the number of enemies. 
 
 ### Files
 
 |   #   | File            | Description                                        |
 | :---: | --------------- | -------------------------------------------------- |
-|   1   | Main.cpp         | Main driver of my project that launches game.      |
-|   2   | HelperClass.cpp  | Helper class that holds movement functions         |
-|   3   | TextureClass.cpp | Helper class that assists with textures and images |
+|   1   | BolNverse.cpp   | Main driver of my project that launches game.      |
+|   2   | helpers.hpp     | helper functions for input validation and tokenization|
+|   3   | fighter.hpp     | Contains FighterFactory factory and the parent class and children fighter classes |
+|   4   | weapon.hpp      | Contains WeaponFactory factory and the parent class and children weapon classes |
+|   3   | dice.hpp        | Contains die and dice classes for RNG |
+|   3   | attackers.in    | Sample input file containing 1700 enemies|
+|   3   | attackers.txt    | Sample input file containing 1700 enemies|
+|   3   | attackers100.txt    | Sample input file containing 100 enemies|
 
 ### Instructions
 
-- Make sure you install library `blahblah.cpp`
-- My program expects two parameters to be placed on the command line when you run the program.
-- Parameters `<input file> <number of players>`
-- The input file should be formatted with a players name and age on a seperate line:
+- Make sure all input files are placed in the same director as the executable otherwise specify a path when prompted.
+- On compile, make sure all .cpp and .hpp files are located in the same directory
 
-+------------+
-| name1 age1 |
-| name2 age2 |
-| etc...     |
-+------------+
-
-- Example Command:
-    - `python <code> <input file> <num players>`
-    - `python main.cpp input.txt 3`

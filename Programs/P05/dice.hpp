@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <random>
+#include <time.h>
 #include "helpers.hpp"
 
 using namespace std;
@@ -10,39 +11,14 @@ using namespace std;
 
 class Die {
     int sides;
-    mt19937 eng;
 
-    void Seed()
-    {
-        eng = seeded_engine();
-        srand(time(NULL));
-    }
-
-    /**
-    * Public : seeded_engine
-    *
-    * Description:
-    *      generates a seed
-    *
-    * Returns:
-    *      mt19937   : a seed?
-    *
-    *  Code sourced from
-    *  https://stackoverflow.com/questions/13215461/seeding-rand-for-a-c-class
-    *  Credit: bames53
-    */
-    mt19937 seeded_engine() {
-        random_device r;
-        seed_seq seed{ r(), r(), r(), r(), r(), r(), r(), r() };
-        return (mt19937(seed));
-    }
 public:
+    static void Seed(){srand(time(NULL));}
     Die() :sides{ 6 } {}
     Die(int sides) :sides{ sides } {  }
     int roll(int rolls = 1) {
         int sum = 0;
         while (rolls--) {
-            //sum += uniform_int_distribution<>(1, sides)(eng);
             sum += (rand() % sides) + 1;
         }
         return sum;
@@ -51,6 +27,7 @@ public:
     friend ostream& operator<<(ostream& os, const Die& d) {
         return os << "[" << d.sides << "]";
     }
+
 };
 
 
