@@ -14,10 +14,10 @@ The program reads enemies from an input fill and then lets the user pick thier p
 |   2   | helpers.hpp     | helper functions for input validation and tokenization|
 |   3   | fighter.hpp     | Contains FighterFactory factory and the parent class and children fighter classes |
 |   4   | weapon.hpp      | Contains WeaponFactory factory and the parent class and children weapon classes |
-|   3   | dice.hpp        | Contains die and dice classes for RNG |
-|   3   | attackers.in    | Sample input file containing 1700 enemies|
-|   3   | attackers.txt    | Sample input file containing 1700 enemies|
-|   3   | attackers100.txt    | Sample input file containing 100 enemies|
+|   5   | dice.hpp        | Contains die and dice classes for RNG |
+|   6   | attackers.in    | Sample input file containing 1700 enemies|
+|   7   | attackers.txt    | Sample input file containing 1700 enemies|
+|   8   | attackers100.txt    | Sample input file containing 100 enemies|
 
 ### Instructions
 
