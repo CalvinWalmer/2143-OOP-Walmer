@@ -9,6 +9,25 @@ using namespace std;
 
 #pragma once
 
+/**
+ * Weapon
+ * 
+ * Description:
+ *      Weapon class provides a basic object with a name, a damage value to be used with 
+ *      the Dice class, and a Dice to roll. Class is meant to be extended with child classes
+ *      using the WeaponFactory class to create the objects.
+ * 
+ * Public Methods:
+ *      - Weapon()
+ *      - Weapon(vector< string > choices)
+ *      - GetName()
+ *      - use()
+ * 
+ * Usage: 
+ * 
+ *      Weapon* myWeapon = new Weapon;
+ *      cout << myWeapon->use(); //3
+ */
 class Weapon {
 protected:
     string name;    // name of weapon
@@ -36,17 +55,25 @@ public:
         die = new Dice(damage);
     }
 
-    string GetName() { return name; };
+    string GetName() { return name; } //returns the name of the weapon
 
-    double use() {
-        return die->roll();
-    }
+    double use() { return die->roll(); } //uses the weapon by rolling a die. returns the die roll's value.
 
     friend ostream& operator<<(ostream& os, const Weapon& w) {
         return os << w.name << " Damage: " << w.damage;
     }
 };
 
+/**
+ * Sword
+ * 
+ * Description:
+ *      Extention of Weapon with all the same methods except a modified
+ *      constructor that only modifies the name and damage of the weapon
+ * 
+ * Note: 
+ *      See parent Weapon implementation!
+ */
 class Sword : public Weapon
 {
 public:
@@ -58,6 +85,16 @@ public:
     }
 };
 
+/**
+ * Bow
+ * 
+ * Description:
+ *      Extention of Weapon with all the same methods except a modified
+ *      constructor that only modifies the name and damage of the weapon
+ * 
+ * Note: 
+ *      See parent Weapon implementation!
+ */
 class Bow : public Weapon
 {
 public:
@@ -69,6 +106,16 @@ public:
     }
 };
 
+/**
+ * Spell
+ * 
+ * Description:
+ *      Extention of Weapon with all the same methods except a modified
+ *      constructor that only modifies the name and damage of the weapon
+ * 
+ * Note: 
+ *      See parent Weapon implementation!
+ */
 class Spell : public Weapon
 {
 public:
@@ -80,6 +127,16 @@ public:
     }
 };
 
+/**
+ * EnchantedSword
+ * 
+ * Description:
+ *      Extention of Weapon with all the same methods except a modified
+ *      constructor that only modifies the name and damage of the weapon
+ * 
+ * Note: 
+ *      See parent Weapon implementation!
+ */
 class EnchantedSword : public Weapon
 {
 public:
@@ -91,6 +148,16 @@ public:
     }
 };
 
+/**
+ * FireSword
+ * 
+ * Description:
+ *      Extention of Weapon with all the same methods except a modified
+ *      constructor that only modifies the name and damage of the weapon
+ * 
+ * Note: 
+ *      See parent Weapon implementation!
+ */
 class FireSword : public Weapon
 {
 public:
@@ -103,6 +170,22 @@ public:
 };
 
 
+/**
+ * WeaponFactor
+ * 
+ * Description:
+ *      Class is a factory that takes in user input and creates a child weapon object
+ *      based upon that input.
+ * 
+ * Public Methods:
+ *      static Weapon* createWeapon
+ * 
+ * 
+ * Usage: 
+ * 
+ *  Weapon* myWeapon = WeaponFactory::createWeapon("Bow");
+ *      
+ */
 class WeaponFactory
 {
 public:

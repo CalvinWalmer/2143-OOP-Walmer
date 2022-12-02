@@ -1,0 +1,52 @@
+Enter attacker input filename: attackers100.txt
+
+Choose a friend to help you fight!
+You have 1 friends left to choose
+
+1. Warrior
+2. Wizard
+3. Dragonborn
+4. Archer
+5. Elf
+Select: Invalid Input
+3
+
+------------------------------SELECT-FRIEND------------------------------
+   1. Dragonborn HP: 14/14 ██████████████| Weapon: Fire Sword Damage: 4.d.2
+CHOICE (1-1):1
+
+--------------------------------------------------------------------------------
+Archer HP: 7/7 ███████| Weapon: Bow Damage: 2.d.4
+
+
+
+
+
+
+
+
+Dragonborn HP: 14/14 ██████████████| Weapon: Fire Sword Damage: 4.d.2
+ACTIONS: 1. Attack | 2. Swap |
+SELECT ACTION:
+
+--------------------------------------------------------------------------------
+Warrior HP: 3/9 ███      | Weapon: Sword Damage: 1.d.4
+
+
+
+
+
+
+
+
+Dragonborn HP: 12/14 ████████████  | Weapon: Fire Sword Damage: 4.d.2
+ACTIONS: 1. Attack | 2. Swap |
+SELECT ACTION:
+
+GAME STATISTICS
+ATTACKERS DEFEATED: 8/100
+TOTAL DEFENDERS: 1
+ROUNDS FOUGHT: 14
+ATTACKERS WON! :(
+THANKS FOR PLAYING!
+

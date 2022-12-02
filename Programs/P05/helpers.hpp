@@ -42,6 +42,23 @@ string randomChoice(vector<string> choices) {
     return choices[rand() % choices.size()];
 }
 
+
+    /**
+     * Public GetIntInput
+     * 
+     * Description:
+     *      Given an upper and a lower bound, perform input validation on the user's input.
+     *      Safely converts characters to numbers. Based on code from
+     *      https://stackoverflow.com/a/4990923/19922415
+     *      Credit: ari-free, LPL
+     * 
+     * Params:
+     *      - int   lBound  lowest acceptable value
+     *      - int   uBound  highest acceptable value
+     * 
+     * Returns:
+     *      - int   an integer that falls within the bounds
+     */
 int GetIntInput(int lBound, int uBound)
 {
     string inp;
@@ -50,6 +67,7 @@ int GetIntInput(int lBound, int uBound)
     {
         getline(cin, inp);
         stringstream stream(inp);
+
         if(stream >> choice)
             if (choice >= lBound && choice <= uBound)
                 break;
